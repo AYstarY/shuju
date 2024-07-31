@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>照片</title>
+    <style>
+        body { background-color: white; }
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .delete-button {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>文传</h1>
+    <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="+">
+    </form>
+    <div class="image-container">
+        {% for image in images %}
+        <img src="{{ url_for('uploaded_file', filename=image) }}" alt="{{ image }}">
+        <button class="delete-button" onclick="location.href='{{ url_for('delete_file', filename=image) }}'">删除</button>
+        {% endfor %}
+    </div>
+</body>
+</html>
