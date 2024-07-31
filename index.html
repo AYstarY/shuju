@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload File</title>
+    <style>
+        body {
+            background-color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+        button {
+            font-size: 2em;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <button onclick="document.getElementById('fileInput').click()">+</button>
+    <input id="fileInput" type="file" style="display:none" onchange="uploadFile(this)">
+    <div id="images"></div>
+</div>
+
+<script>
+    function uploadFile(input) {
+        const formData = new FormData();
+        formData.append('file', input.files[0]);
+
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            const imagesDiv = document.getElementById('images');
+            const imgElement = document.createElement('img');
+            imgElement.src = `/uploads/${input.files[0].name}`;
+            imagesDiv.appendChild(imgElement);
+        });
+    }
+</script>
+</body>
+</html>
